@@ -1,4 +1,4 @@
-### SVMC
+# SVMC
 * Code 1 project android Mvvm
 * Dùng retrofit, rx hoặc corotine,
 * Kéo 1 danh sách gì đó về
@@ -6,6 +6,9 @@
 * Lúc kéo thì lưu db vào room
 * Và dùng hilt
 * tự code 10 lần
+
+# Video MVVM
+* https://www.youtube.com/watch?v=Udk6iaR-RXA&list=PLrnPJCHvNZuCfAe7QK2BoMPkv2TGM_b0E&ab_channel=CodinginFlow
 
 # Bộ câu hỏi github
 * https://github.com/MindorksOpenSource/android-interview-questions?fbclid=IwAR0QxTgK-g1Z6BBaQ6S_RXbd6_MKWRt-K6rV3cl3U5Pg6_YnLhQFy_aW8dg
