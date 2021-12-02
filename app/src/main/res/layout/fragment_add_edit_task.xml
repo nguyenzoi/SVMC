@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/faet_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Task name"
+            android:inputType="text" />
+
+        <CheckBox
+            android:id="@+id/faet_cb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Important task" />
+
+        <TextView
+            android:id="@+id/faet_date_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date created: " />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/faet_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_check_24_white" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
