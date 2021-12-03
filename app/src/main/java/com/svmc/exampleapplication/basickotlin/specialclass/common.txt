@@ -1,0 +1,7 @@
+
+** difference var and val
+var mutable variable
+val immutable variable. can be initialized only single time
+
+
+
