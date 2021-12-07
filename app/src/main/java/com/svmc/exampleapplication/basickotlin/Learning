@@ -1,0 +1,27 @@
+#1 Project Setup - MVVM To-Do List App with Flow and Architecture Components
+
+#2 Layouts & Room Entity
++ create layout main, item recycle view,
+++ CoordinatorLayout
+- là lớp mở rộng của ViewGroup giống với FrameLayout, thường sử dụng để thiết kế layout chính
+- thêm compile 'com.android.support:design:26.1.0'
+- thuộc tính app:layout_anchor chỉ ra phần tử view để neo
+app: layout_anchorGravity kết hợp với Gravity botton|left|top|right
+
++ create dataclass, add annotation Parcelize
+Parcelable: là một interface android cho phép đọc ghi kiểu dữ liệu vào/tù a byte array
+-> giúp cải thiện thời gian chạy
+-> cần đo time để biết rõ khi thêm và không thêm annotation này
+
+#3 Navigation Component
+#4 Room Dependency Injection
+#5 ListAdapter with View Binding
+#6 Room Search
+#7 Combining multiple Flows
+#8 Saving Data with Jetpack DataStore
+#9 Updating Checked Tasks
+#10 Swipe-to-Delete & Undo
+#11 Nav Args & SavedStateHandle
+#12 Add/Edit Logic
+#13 Delete-All-Completed Dialog
+#14 Restoring the Fragment SearchView
