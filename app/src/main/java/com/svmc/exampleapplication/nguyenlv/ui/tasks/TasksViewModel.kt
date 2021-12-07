@@ -1,9 +1,8 @@
 package com.svmc.exampleapplication.nguyenlv.ui.tasks
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.svmc.exampleapplication.nguyenlv.data.PreferencesManager
 import com.svmc.exampleapplication.nguyenlv.data.SortOrder
 import com.svmc.exampleapplication.nguyenlv.data.Task
@@ -14,9 +13,10 @@ import kotlinx.coroutines.launch
 
 class TasksViewModel @ViewModelInject constructor(
     private val taskDao: TaskDao,
-    private val preferencesManager: PreferencesManager
+    private val preferencesManager: PreferencesManager,
+    @Assisted private val state: SavedStateHandle
 ) : ViewModel() {
-    val searchQuery = MutableStateFlow("")
+    val searchQuery = state.getLiveData("searchQuery", "")
 
     var sortOrder = MutableStateFlow(SortOrder.BY_DATE)
     var hideCompleted = MutableStateFlow(false)
@@ -31,7 +31,7 @@ class TasksViewModel @ViewModelInject constructor(
 
 
     private val tasksFlow = combine(
-        searchQuery, sortOrder, hideCompleted
+        searchQuery.asFlow(), sortOrder, hideCompleted
     ) { query, sortOrder, hideCompleted ->
         Triple(query, sortOrder, hideCompleted)
     }
@@ -47,8 +47,12 @@ class TasksViewModel @ViewModelInject constructor(
         preferencesManager.updateHideCompleted(hideCompleted)
     }
 
-    fun onTaskSelected(task: Task) {
+    fun addNewTaskClick() = viewModelScope.launch {
+        tasksEventChannel.send(TasksEvent.NavigateToAddTaskScreen)
+    }
 
+    fun onTaskSelected(task: Task) = viewModelScope.launch {
+        tasksEventChannel.send(TasksEvent.NavigateToEditTaskScreen(task))
     }
 
     fun onCheckedChanged(task: Task, isChecked: Boolean) = viewModelScope.launch {
@@ -71,6 +75,8 @@ class TasksViewModel @ViewModelInject constructor(
     }
 
     sealed class TasksEvent {
+        object NavigateToAddTaskScreen : TasksEvent()
+        data class NavigateToEditTaskScreen(val task: Task) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val task: Task) : TasksEvent()
     }
 }
