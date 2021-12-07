@@ -1,7 +1,6 @@
 package com.svmc.exampleapplication.nguyenlv.data
 
 import androidx.room.*
-import com.svmc.exampleapplication.nguyenlv.ui.tasks.SortOrder
 import kotlinx.coroutines.flow.Flow
 
 @Dao
