@@ -13,20 +13,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.FragmentTasksBinding
 import com.svmc.exampleapplication.nguyenlv.data.SortOrder
+import com.svmc.exampleapplication.nguyenlv.data.Task
 import com.svmc.exampleapplication.nguyenlv.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TasksFragment : Fragment(R.layout.fragment_tasks) {
+class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
     private val viewModel: TasksViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentTasksBinding.bind(view)
-        val taskAdapter = TasksAdapter()
+        val taskAdapter = TasksAdapter(this)
 
         binding.apply {
             rcvTasks.apply {
@@ -55,7 +56,7 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             menu.findItem(R.id.action_hide_completed).isChecked =
-                viewModel.preferencesFlow.first().hideCompleted
+                viewModel.hideCompleted.first()
         }
     }
 
@@ -79,5 +80,13 @@ class TasksFragment : Fragment(R.layout.fragment_tasks) {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onItemClick(task: Task) {
+        viewModel.onTaskSelected(task)
+    }
+
+    override fun onCheckBoxClick(task: Task, isChecked: Boolean) {
+        viewModel.onCheckedChanged(task, isChecked)
     }
 }

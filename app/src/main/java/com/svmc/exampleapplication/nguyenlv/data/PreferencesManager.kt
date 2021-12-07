@@ -1,4 +1,5 @@
 package com.svmc.exampleapplication.nguyenlv.data
+
 import android.content.Context
 import android.util.Log
 import androidx.datastore.preferences.createDataStore
@@ -39,6 +40,14 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             val hideCompleted = preferences[PreferencesKeys.HIDE_COMPLETED] ?: false
             FilterPreferences(sortOrder, hideCompleted)
         }
+
+    val sortOrder = dataStore.data.map {
+        SortOrder.valueOf(
+            it[PreferencesKeys.SORT_ORDER] ?: SortOrder.BY_DATE.name
+        )
+    }
+
+    val hideCompleted = dataStore.data.map { it[PreferencesKeys.HIDE_COMPLETED] ?: false }
 
     suspend fun updateSortOrder(sortOrder: SortOrder) {
         dataStore.edit { preferences ->
