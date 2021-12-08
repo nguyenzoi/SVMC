@@ -16,22 +16,22 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/checkbox_completed"
         android:layout_alignBottom="@+id/checkbox_completed"
-        android:layout_toEndOf="@+id/checkbox_completed"
-        android:text="Item"
         android:layout_marginStart="5dp"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:layout_toStartOf="@+id/label_priority"
-        android:gravity="center_vertical" />
+        android:layout_toEndOf="@+id/checkbox_completed"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:text="Item" />
 
     <ImageView
         android:id="@+id/label_priority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_priority_24_black"
-        android:layout_alignBottom="@+id/checkbox_completed"
         android:layout_alignTop="@id/checkbox_completed"
+        android:layout_alignBottom="@+id/checkbox_completed"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_priority_24_black" />
 
 </RelativeLayout>

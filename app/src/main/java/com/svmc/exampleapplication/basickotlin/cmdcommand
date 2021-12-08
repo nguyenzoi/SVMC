@@ -1,0 +1,4 @@
+Start activity:
+adb shell am start  -W -a android.intent.action.VIEW  -d "www.exampleapplication/editArgument" com.example.android
+mean
+Intent { act=android.intent.action.VIEW dat=www.exampleapplication/editArgument pkg=com.example.android }

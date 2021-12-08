@@ -13,13 +13,36 @@
             android:name=".nguyenlv.view.MvvmDemoActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".luantv.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+<!--            normal deeplink-->
+<!--            <intent-filter android:label="Deep link">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                &lt;!&ndash; Accepts URIs that begin with "http://www.example.com/gizmos” &ndash;&gt;-->
+<!--                <data android:scheme="http"-->
+<!--                    android:host="www.example.com"-->
+<!--                    android:pathPrefix="/gizmos" />-->
+<!--                &lt;!&ndash; note that the leading "/" is required for pathPrefix&ndash;&gt;-->
+<!--            </intent-filter>-->
+<!--            <intent-filter android:label="Deep link1">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                &lt;!&ndash; Accepts URIs that begin with "example://gizmos” &ndash;&gt;-->
+<!--                <data android:scheme="example"-->
+<!--                    android:host="gizmos" />-->
+<!--            </intent-filter>-->
+
+<!--            This will ensure the appropriate intent filter is generated-->
+            <nav-graph android:value="@navigation/nav_graph"/>
         </activity>
     </application>
 

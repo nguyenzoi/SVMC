@@ -14,6 +14,44 @@ Parcelable: là một interface android cho phép đọc ghi kiểu dữ liệu 
 -> cần đo time để biết rõ khi thêm và không thêm annotation này
 
 #3 Navigation Component
+is a collection of libraries, a plugin and tooling for unifying(hop nhat hoa) and simplifying (don gian hoa) android navigation
+Benefits:
++ simplified setup for common navigation patterns
++ Handles backstack
++ Automates fragment transactions
++ Type safe argument passing
++ Handles transition animations
++ Simplified deep linking
++ Centralizes and visualizes navigation
+
+- 3 major parts
++ Navigation graph
++ NavHostFragment
++ NavController
+
+- Navigation UI
++ Options Menus
++ Botton Navigation
++ Navigation View
++ Navigation Drawer
++ ActionBar
++ Toolbar
++ Collapsing Toolbar
+
+** dif normal args and safe args?
+EXP: truyen kieu float -> get kieu int
+ If you don't use Safe Args, you'll have to make extra sure that those manually stay in sync
+  to ensure that your call to navigate() doesn't throw an exception at runtime
+ . The arguments are just a nice extra on top of that.
+
+** . Deep links are a way to jump into the middle of your app's navigation, whether that's
+from an actual URL link or a pending intent from a notification.
+
+** Difference between destination and  popUpto
++ Destination always push to stacks
++ popUpto pop all until meet the fragment. if PopUpToInclusive is true pop the fragment and push again
+, else push new same fragment
+
 #4 Room Dependency Injection
 #5 ListAdapter with View Binding
 #6 Room Search
