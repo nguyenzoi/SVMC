@@ -3,6 +3,8 @@ package com.svmc.exampleapplication.nguyenlv.ui.tasks
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.svmc.exampleapplication.ADD_TASK_RESULT_OK
+import com.svmc.exampleapplication.EDIT_TASK_RESULT_OK
 import com.svmc.exampleapplication.nguyenlv.data.PreferencesManager
 import com.svmc.exampleapplication.nguyenlv.data.SortOrder
 import com.svmc.exampleapplication.nguyenlv.data.Task
@@ -68,6 +70,17 @@ class TasksViewModel @ViewModelInject constructor(
         taskDao.insert(task)
     }
 
+    fun onAddEditResult(result: Int) {
+        when (result) {
+            ADD_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Task added")
+            EDIT_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Task Updated")
+        }
+    }
+
+    private fun showTaskSavedConfirmationMessage(text: String) = viewModelScope.launch {
+        tasksEventChannel.send(TasksEvent.ShowTaskSavedConfirmationMessage(text))
+    }
+
     val tasks = tasksFlow.asLiveData()
 
     init {
@@ -78,5 +91,6 @@ class TasksViewModel @ViewModelInject constructor(
         object NavigateToAddTaskScreen : TasksEvent()
         data class NavigateToEditTaskScreen(val task: Task) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val task: Task) : TasksEvent()
+        data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
     }
 }

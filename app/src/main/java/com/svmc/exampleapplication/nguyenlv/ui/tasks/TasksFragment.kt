@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -61,6 +62,11 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
             fabAddTask.setOnClickListener { viewModel.addNewTaskClick() }
         }
 
+        setFragmentResultListener("add_edit_request") { _, bunlde ->
+            val result = bunlde.getInt("add_edit_result")
+            viewModel.onAddEditResult(result)
+        }
+
         viewModel.tasks.observe(viewLifecycleOwner) {
             taskAdapter.submitList(it)
         }
@@ -74,15 +80,24 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
                                 viewModel.onUndoDeleteClick(event.task)
                             }.show()
                     }
-                    TasksViewModel.TasksEvent.NavigateToAddTaskScreen -> {
+                    is TasksViewModel.TasksEvent.NavigateToAddTaskScreen -> {
                         val action =
-                            TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment2(null, "New Task")
+                            TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment2(
+                                null,
+                                "New Task"
+                            )
                         findNavController().navigate(action)
                     }
                     is TasksViewModel.TasksEvent.NavigateToEditTaskScreen -> {
                         val action =
-                            TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment2(event.task, "Edit Task")
+                            TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment2(
+                                event.task,
+                                "Edit Task"
+                            )
                         findNavController().navigate(action)
+                    }
+                    is TasksViewModel.TasksEvent.ShowTaskSavedConfirmationMessage -> {
+                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                     }
                 }.exhaustive
             }
