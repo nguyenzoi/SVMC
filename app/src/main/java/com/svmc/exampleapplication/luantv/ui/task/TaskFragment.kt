@@ -1,18 +1,20 @@
-package com.svmc.exampleapplication.luantv.ui.fragment
+package com.svmc.exampleapplication.luantv.ui.task
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.svmc.exampleapplication.R
-import java.util.zip.Inflater
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
 
+    private val viewModel: TaskViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/purple_200"
-    tools:context=".luantv.ui.fragment.TaskFragment">
+    tools:context=".luantv.ui.task.TaskFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

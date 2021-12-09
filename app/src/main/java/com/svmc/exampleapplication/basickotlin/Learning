@@ -53,6 +53,47 @@ from an actual URL link or a pending intent from a notification.
 , else push new same fragment
 
 #4 Room Dependency Injection
++ Suspend function
+ is a function that could be started, paused, and resume.
+they are only allowed to be called from a coroutine or another suspend function.
+
+++ Annotation
++ @Retention
++ @Documented
++ @Target
++ @Repeatable
++ @MustBeDocumented
+
+Khái niệm:
++ Dagger is a fully static, compile-time dependency injection framework for Java, Kotlin, and Android.
+It is an adaptation of an earlier version created by Square and now maintained by Google.
+
+Mục đính Dagger, Dagger-Hilt:
++ Quản lý các dependencies
+
+Benefit Dagger:
++ Generating the AppContainer code (application graph) that you manually implemented
+in the manual DI section.
++ Creating factories for the classes available in the application graph.
+This is how dependencies are satisfied internally.
++ Deciding whether to reuse a dependency or create a new instance through the use of scopes.
++ Creating containers for specific flows as you did with the login flow in the previous
+section using Dagger subcomponents. This improves your app's performance by releasing objects
+in memory when they're no longer needed.
+
+Cấu trúc của dagger
+
+Modules: @module, @Provides
+Component: @Component
+Inject: @Inject
+
+Hilt -Dagger2 vs Dagger?
+Hilt vs Dagger2?
+https://medium.com/huawei-developers/differences-between-dagger-and-hilt-3e347d24fb86
+Does Hilt replace Dagger2?
++ No. Hilt still uses Dagger underneath the hood.
+You could think of it as an opinionated Dagger extension for Android
+
 #5 ListAdapter with View Binding
 #6 Room Search
 #7 Combining multiple Flows
