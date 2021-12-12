@@ -95,7 +95,34 @@ Does Hilt replace Dagger2?
 You could think of it as an opinionated Dagger extension for Android
 
 #5 ListAdapter with View Binding
+
 #6 Room Search
+inline, noninline, crossinline function?
+inline: annotation cho trihh bien dich chen luon than ham khi goi
+noninline: Khong chen than ham goi qua overhead
+crossinline: khonng cho phep return trong ham truyen vao
+Uu diem inline:
++ Không cần phải gọi overhead
++ Tiết kiệm chi phí gọi hàm, thực hiện chương trình nhanh hơn
+Nhược điểm:
++ Tốn bộ nhớ Stack nếu hàm chứa nhiều biến cục bộ
++ Tăng kích thước file class
++ Nếu dùng nhiều sẽ làm giảm tốc độ truy cập bộ đệm
+Dùng khi nào:
++ Khi cần tối ưu hiệu suất, tăng tốc độ xử lý
++ Các hàm ngắn, được dùng nhiều lần
+Trách dùng:
++ Khi code hàm dài, liên quan nhiều bên
++ Hàm khởi tạo (liên quan đến nhiều class)
++ Hàm trừu tượng
+
+StateFlow: được mô tả là một flow đại diện cho trạng thái chỉ đọc với một giá trị dữ liệu có thể
+cập nhật duy nhất phát ra các bản cập nhật giá trị cho bộ thu (flow collectors) của nó
+
+StateFlow<T> interface chỉ cung cấp quyền truy cập giá trị.
+MutabaleStateFlow<T> interface cung cấp khả năng sửa đổi giá trị.
+
+
 #7 Combining multiple Flows
 #8 Saving Data with Jetpack DataStore
 #9 Updating Checked Tasks
