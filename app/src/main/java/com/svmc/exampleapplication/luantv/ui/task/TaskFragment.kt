@@ -13,13 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.FragmentMainMvvmBinding
+import com.svmc.exampleapplication.luantv.data.Order
+import com.svmc.exampleapplication.luantv.data.Task
 import com.svmc.exampleapplication.luantv.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
 private const val TAG = "TaskFragment"
 @AndroidEntryPoint
-class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
+class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListener {
 
     private val viewModel: TaskViewModel by viewModels()
     private lateinit var binding: FragmentMainMvvmBinding
@@ -32,7 +34,7 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
             .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_add, null))
 
         setHasOptionsMenu(true)
-        taskAdapter = TaskAdapter()
+        taskAdapter = TaskAdapter(this)
         binding.apply {
             listTask.apply {
                 adapter = taskAdapter
@@ -46,6 +48,14 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
             Log.d(TAG, " size ${it.size}")
             taskAdapter.submitList(it)
         }
+    }
+
+    override fun onItemClicked(task: Task) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onCheckBoxClicked(task: Task, checked: Boolean) {
+        viewModel.updateCompletedTask(task, checked)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -62,11 +72,13 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
         return when(item.itemId) {
 
             R.id.action_sort_by_date -> {
-                viewModel.orderBy.value = TaskViewModel.Order.BY_DATE
+//                viewModel.orderBy.value = TaskViewModel.Order.BY_DATE
+                viewModel.updateSort(Order.BY_DATE)
                 true
             }
             R.id.action_sort_by_name -> {
-                viewModel.orderBy.value = TaskViewModel.Order.BY_NAME
+//                viewModel.orderBy.value = TaskViewModel.Order.BY_NAME\
+                viewModel.updateSort(Order.BY_NAME)
                 true
             }
             R.id.action_delete_all_completed_task -> {
@@ -74,7 +86,10 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
                 true
             }
             R.id.action_hide_completed_tasks -> {
-                viewModel.hideCompleted.value = !viewModel.hideCompleted.value
+//                viewModel.hideCompleted.value = !viewModel.hideCompleted.value
+//                need to get status of data preferece firstly
+                item.isChecked = !item.isChecked
+                viewModel.updateHideCompleted(item.isChecked)
                 true
             }
             else -> super.onOptionsItemSelected(item)

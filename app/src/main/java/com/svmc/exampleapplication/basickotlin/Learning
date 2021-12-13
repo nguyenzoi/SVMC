@@ -132,7 +132,7 @@ MutabaleStateFlow<T> interface cung cấp khả năng sửa đổi giá trị.
 + Collection: Handle all item then emit
 + Sequences: yield each item (xử lý đồng boọ): Thực hiện xong khối trong sequence mới thực hiện
 khối khác
-+ Flow: emit each item (xử lý bất đông bộ): Thực hiện song song với các khối khác
++ Flow: emit each item (xử lý bất đồng bộ): Thực hiện song song với các khối khác
 
 Flow:
 + là nguồn dữ liệu lạnh (cold streams) để thực hiên cần gọi collect function
@@ -147,6 +147,21 @@ catch: handle catch exception
 https://viblo.asia/p/cung-hoc-kotlin-coroutine-phan-10-flow-part-3-of-3-aWj53G4o56m
 
 #8 Saving Data with Jetpack DataStore
++ SharedPreferences , Preferences DataStore và Proto DataStore?
+
+DataStore is a new and improved data storage solution aimed at replacing SharedPreferences.
+https://developer.android.com/codelabs/android-preferences-datastore#0
+
+SharePreference: api đồng bộ -> dẫn đến block ui
+DataStore: api bất đồng bộ( work on dispatchers.io) -> không block ui
+
+DataStore: Handle runtime exception,
+
+Handles data migration?
++ It mean can handles the translation of all your keys saved by sharepreferences to datastore
+Has a transactional API with strong consistency guarantees?
+Type safety?
+
 #9 Updating Checked Tasks
 #10 Swipe-to-Delete & Undo
 #11 Nav Args & SavedStateHandle

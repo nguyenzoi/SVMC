@@ -9,9 +9,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.svmc.exampleapplication.databinding.ItemTaskMvvmBinding
 import com.svmc.exampleapplication.luantv.data.Task
 
-class TaskAdapter: ListAdapter<Task, TaskAdapter.TaskHolder>(DiffCallBack()) {
+class TaskAdapter(val listener: ItemListener): ListAdapter<Task, TaskAdapter.TaskHolder>(DiffCallBack()) {
 
-    class TaskHolder(private val binding: ItemTaskMvvmBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class TaskHolder(private val binding: ItemTaskMvvmBinding): RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.apply {
+                itemView.setOnClickListener{
+                    val task = getItem(adapterPosition)
+                    listener.onItemClicked(task)
+                }
+
+                checkboxCompleted.setOnClickListener {
+                    val task = getItem(adapterPosition)
+                    val check = checkboxCompleted.isChecked
+                    listener.onCheckBoxClicked(task, check)
+                }
+            }
+        }
+
         fun bind(task: Task) {
             binding.apply {
                 taskName.text = task.name
@@ -36,5 +51,11 @@ class TaskAdapter: ListAdapter<Task, TaskAdapter.TaskHolder>(DiffCallBack()) {
         override fun areContentsTheSame(oldItem: Task, newItem: Task) = oldItem == newItem
 
         override fun areItemsTheSame(oldItem: Task, newItem: Task) = oldItem.id == newItem.id
+    }
+
+    interface ItemListener {
+        fun onItemClicked (task: Task)
+
+        fun onCheckBoxClicked (task: Task, checked: Boolean)
     }
 }

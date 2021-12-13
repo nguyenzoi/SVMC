@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
 
-    fun getTask(searchQuery: String,  orderBy: TaskViewModel.Order, hideCompleted: Boolean): Flow<List<Task>>
+    fun getTask(searchQuery: String,  orderBy: Order, hideCompleted: Boolean): Flow<List<Task>>
     =  when(orderBy) {
-        TaskViewModel.Order.BY_DATE -> getTaskByOrderDate(searchQuery, hideCompleted)
-        TaskViewModel.Order.BY_NAME -> getTaskByOrderName(searchQuery, hideCompleted)
+        Order.BY_DATE-> getTaskByOrderDate(searchQuery, hideCompleted)
+        Order.BY_NAME-> getTaskByOrderName(searchQuery, hideCompleted)
     }
 
     @Query("Select * from task_table where (completed != :hideCompleted or completed = 0) and name like '%' || :searchQuery || '%' order by name asc ")
