@@ -163,6 +163,8 @@ Has a transactional API with strong consistency guarantees?
 Type safety?
 
 #9 Updating Checked Tasks
++ add click item and checkbox listener
++
 #10 Swipe-to-Delete & Undo
 #11 Nav Args & SavedStateHandle
 #12 Add/Edit Logic

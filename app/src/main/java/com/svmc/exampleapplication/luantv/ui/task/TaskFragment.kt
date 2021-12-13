@@ -8,9 +8,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.FragmentMainMvvmBinding
 import com.svmc.exampleapplication.luantv.data.Order
@@ -18,6 +22,7 @@ import com.svmc.exampleapplication.luantv.data.Task
 import com.svmc.exampleapplication.luantv.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 
 private const val TAG = "TaskFragment"
 @AndroidEntryPoint
@@ -42,16 +47,45 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListe
                 setHasFixedSize(true)
             }
 
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val task = taskAdapter.currentList[viewHolder.adapterPosition]
+                    viewModel.onTaskSwiped(task)
+                }
+            }).attachToRecyclerView(listTask)
+
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) {
             Log.d(TAG, " size ${it.size}")
             taskAdapter.submitList(it)
         }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.tasksEvent.collect {event ->
+                when(event) {
+                    is TaskViewModel.TasksEvent.ShowUndoDeleteTaskMessage ->
+                        Snackbar.make(requireView(), "Task deleted ", Snackbar.LENGTH_LONG)
+                            .setAction("Undo") {
+                                viewModel.onUndoDeleteSwiped(event.task)
+                            }.show()
+                }
+            }
+        }
     }
 
     override fun onItemClicked(task: Task) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onCheckBoxClicked(task: Task, checked: Boolean) {

@@ -15,14 +15,21 @@ class TaskAdapter(val listener: ItemListener): ListAdapter<Task, TaskAdapter.Tas
         init {
             binding.apply {
                 itemView.setOnClickListener{
-                    val task = getItem(adapterPosition)
-                    listener.onItemClicked(task)
+                    val pos = adapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
+                        val task = getItem(pos)
+                        listener.onItemClicked(task)
+                    }
                 }
 
                 checkboxCompleted.setOnClickListener {
-                    val task = getItem(adapterPosition)
-                    val check = checkboxCompleted.isChecked
-                    listener.onCheckBoxClicked(task, check)
+                    val pos = adapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
+                        val task = getItem(pos)
+                        val check = checkboxCompleted.isChecked
+                        listener.onCheckBoxClicked(task, check)
+                    }
+
                 }
             }
         }
