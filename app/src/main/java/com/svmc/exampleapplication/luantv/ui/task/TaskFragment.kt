@@ -15,6 +15,8 @@ import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.FragmentMainMvvmBinding
 import com.svmc.exampleapplication.luantv.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+
 private const val TAG = "TaskFragment"
 @AndroidEntryPoint
 class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
@@ -58,16 +60,13 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
-            R.id.action_search -> {
 
-                true
-            }
             R.id.action_sort_by_date -> {
-
+                viewModel.orderBy.value = TaskViewModel.Order.BY_DATE
                 true
             }
             R.id.action_sort_by_name -> {
-
+                viewModel.orderBy.value = TaskViewModel.Order.BY_NAME
                 true
             }
             R.id.action_delete_all_completed_task -> {
@@ -75,7 +74,7 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm) {
                 true
             }
             R.id.action_hide_completed_tasks -> {
-
+                viewModel.hideCompleted.value = !viewModel.hideCompleted.value
                 true
             }
             else -> super.onOptionsItemSelected(item)

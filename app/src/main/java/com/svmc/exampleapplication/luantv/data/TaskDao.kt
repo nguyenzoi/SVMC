@@ -1,13 +1,23 @@
 package com.svmc.exampleapplication.luantv.data
 
 import androidx.room.*
+import com.svmc.exampleapplication.luantv.ui.task.TaskViewModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
 
-    @Query("Select * from task_table where name like '%' || :searchQuery || '%' order by important desc")
-    fun getTask(searchQuery: String): Flow<List<Task>>
+    fun getTask(searchQuery: String,  orderBy: TaskViewModel.Order, hideCompleted: Boolean): Flow<List<Task>>
+    =  when(orderBy) {
+        TaskViewModel.Order.BY_DATE -> getTaskByOrderDate(searchQuery, hideCompleted)
+        TaskViewModel.Order.BY_NAME -> getTaskByOrderName(searchQuery, hideCompleted)
+    }
+
+    @Query("Select * from task_table where (completed != :hideCompleted or completed = 0) and name like '%' || :searchQuery || '%' order by name asc ")
+    fun getTaskByOrderName(searchQuery: String, hideCompleted: Boolean): Flow<List<Task>>
+
+    @Query("Select * from task_table where (completed != :hideCompleted or completed = 0) and name like '%' || :searchQuery || '%' order by created asc ")
+    fun getTaskByOrderDate(searchQuery: String, hideCompleted: Boolean): Flow<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(task: Task)

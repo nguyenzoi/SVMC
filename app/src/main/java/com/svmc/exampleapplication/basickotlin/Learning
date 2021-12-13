@@ -53,9 +53,13 @@ from an actual URL link or a pending intent from a notification.
 , else push new same fragment
 
 #4 Room Dependency Injection
-+ Suspend function
+++ Suspend function
  is a function that could be started, paused, and resume.
-they are only allowed to be called from a coroutine or another suspend function.
++ they are only allowed to be called from a coroutine or another suspend function.
++ return only a single value
+Using:
+Xử dụng để tạm nhừng chỗ cho hàm khác
+https://viblo.asia/p/hieu-ve-suspend-function-trong-kotlin-coroutines-RQqKLAnNZ7z
 
 ++ Annotation
 + @Retention
@@ -124,6 +128,24 @@ MutabaleStateFlow<T> interface cung cấp khả năng sửa đổi giá trị.
 
 
 #7 Combining multiple Flows
+++ Collection vs Sequences vs flow
++ Collection: Handle all item then emit
++ Sequences: yield each item (xử lý đồng boọ): Thực hiện xong khối trong sequence mới thực hiện
+khối khác
++ Flow: emit each item (xử lý bất đông bộ): Thực hiện song song với các khối khác
+
+Flow:
++ là nguồn dữ liệu lạnh (cold streams) để thực hiên cần gọi collect function
++ chỉ có thể bị hủy khi gặp hàm suspend
+https://viblo.asia/p/cung-hoc-kotlin-coroutine-phan-8-flow-part-1-of-3-bWrZnx695xw
+Toán tử:
+take, combine, flatmaplatest..
+https://viblo.asia/p/cung-hoc-kotlin-coroutine-phan-9-flow-part-2-of-3-07LKXmX8ZV4
+Toán tử đặc biệt:
+onCompleate: handle after finish emit
+catch: handle catch exception
+https://viblo.asia/p/cung-hoc-kotlin-coroutine-phan-10-flow-part-3-of-3-aWj53G4o56m
+
 #8 Saving Data with Jetpack DataStore
 #9 Updating Checked Tasks
 #10 Swipe-to-Delete & Undo
