@@ -25,7 +25,7 @@
         android:textColor="@color/black"
         android:ellipsize="end"
         android:singleLine="true"
-        android:text="Example Item" />
+        tools:text="Example Item" />
 
     <ImageView
         android:id="@+id/label_priority"
