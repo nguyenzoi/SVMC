@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    android:label="NavGraph"
+    app:startDestination="@id/taskFragment">
+
+    <fragment
+        android:id="@+id/taskFragment"
+        android:name="com.svmc.exampleapplication.luantv.ui.task.TaskFragment"
+        android:label="fragment_main_mvvm"
+        tools:layout="@layout/fragment_main_mvvm" >
+
+        <action
+            android:id="@+id/action_add"
+            app:destination="@+id/editFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.svmc.exampleapplication.luantv.ui.editor.EditFragment"
+        android:label="edit_fragment_mvvm"
+        tools:layout="@layout/edit_fragment_mvvm" >
+
+        <action android:id="@+id/action_save"
+            app:destination="@+id/taskFragment" />
+
+        <deepLink app:uri="www.example.com/urlTest"/>
+        <argument
+            android:name="task"
+            app:argType="com.svmc.exampleapplication.luantv.data.Task"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+
+</navigation>
