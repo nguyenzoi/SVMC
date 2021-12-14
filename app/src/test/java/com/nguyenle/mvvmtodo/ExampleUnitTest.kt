@@ -1,4 +1,4 @@
-package com.svmc.exampleapplication
+package com.nguyenle.mvvmtodo
 
 import org.junit.Test
 
