@@ -1,7 +1,6 @@
 package com.svmc.exampleapplication.luantv.data
 
 import androidx.room.*
-import com.svmc.exampleapplication.luantv.ui.task.TaskViewModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

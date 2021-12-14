@@ -2,14 +2,16 @@ package com.svmc.exampleapplication.luantv.ui.task
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.LinearLayout
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +21,9 @@ import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.FragmentMainMvvmBinding
 import com.svmc.exampleapplication.luantv.data.Order
 import com.svmc.exampleapplication.luantv.data.Task
+import com.svmc.exampleapplication.luantv.util.exhaustive
 import com.svmc.exampleapplication.luantv.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 
 private const val TAG = "TaskFragment"
@@ -35,8 +37,6 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainMvvmBinding.bind(view)
-        binding.root.findViewById<FloatingActionButton>(R.id.bnt_add)
-            .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_add, null))
 
         setHasOptionsMenu(true)
         taskAdapter = TaskAdapter(this)
@@ -64,6 +64,10 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListe
                 }
             }).attachToRecyclerView(listTask)
 
+            bntAdd.setOnClickListener {
+                viewModel.onClickAddButton()
+            }
+
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) {
@@ -79,13 +83,21 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListe
                             .setAction("Undo") {
                                 viewModel.onUndoDeleteSwiped(event.task)
                             }.show()
-                }
+                    is TaskViewModel.TasksEvent.NavigateToAddScreen -> {
+                        val action = TaskFragmentDirections.actionToAddEdit(null, title = "New Task")
+                        findNavController().navigate(action)
+                    }
+                    is TaskViewModel.TasksEvent.NavigateToEditScreen -> {
+                        val action = TaskFragmentDirections.actionToAddEdit(event.task, title = "Edit Task")
+                        findNavController().navigate(action)
+                    }
+                }.exhaustive
             }
         }
     }
 
     override fun onItemClicked(task: Task) {
-
+        viewModel.onItemSelected(task)
     }
 
     override fun onCheckBoxClicked(task: Task, checked: Boolean) {

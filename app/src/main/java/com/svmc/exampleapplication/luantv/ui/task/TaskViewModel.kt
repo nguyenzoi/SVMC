@@ -1,21 +1,26 @@
 package com.svmc.exampleapplication.luantv.ui.task
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.svmc.exampleapplication.luantv.data.*
+import androidx.lifecycle.*
+import com.svmc.exampleapplication.luantv.data.Order
+import com.svmc.exampleapplication.luantv.data.PreferenceManager
+import com.svmc.exampleapplication.luantv.data.Task
+import com.svmc.exampleapplication.luantv.data.TaskDao
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.io.Serializable
 
 class TaskViewModel @ViewModelInject constructor(
     private val taskDao:TaskDao,
-    private val preferenceManager: PreferenceManager
+    private val preferenceManager: PreferenceManager,
+    @Assisted private val state: SavedStateHandle
 ): ViewModel() {
 
-    val searchQuery = MutableStateFlow("")
+    val searchQuery = state.getLiveData("searchQuery", "")
 
     private val tasksEventChanel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChanel.receiveAsFlow()
@@ -33,7 +38,7 @@ class TaskViewModel @ViewModelInject constructor(
 
     val preferenceFlow = preferenceManager.preferenceFlow
 
-    val tasksFlow = combine(searchQuery, preferenceFlow) {
+    val tasksFlow = combine(searchQuery.asFlow(), preferenceFlow) {
         searchQuery, filter -> Pair(searchQuery, filter)
     }.flatMapLatest { (searchQuery, filter) ->
         taskDao.getTask(searchQuery, filter.sortOrder, filter.hideCompleted)
@@ -66,7 +71,17 @@ class TaskViewModel @ViewModelInject constructor(
         taskDao.insert(task)
     }
 
+    fun onItemSelected(task: Task) = viewModelScope.launch {
+        tasksEventChanel.send(TasksEvent.NavigateToEditScreen(task))
+    }
+
+    fun onClickAddButton () = viewModelScope.launch {
+        tasksEventChanel.send(TasksEvent.NavigateToAddScreen)
+    }
+
     sealed class TasksEvent {
+        object NavigateToAddScreen: TasksEvent()
+        data class NavigateToEditScreen(val task: Task): TasksEvent()
         data class ShowUndoDeleteTaskMessage (val task: Task): TasksEvent()
     }
 

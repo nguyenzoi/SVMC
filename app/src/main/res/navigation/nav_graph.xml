@@ -9,11 +9,11 @@
     <fragment
         android:id="@+id/taskFragment"
         android:name="com.svmc.exampleapplication.luantv.ui.task.TaskFragment"
-        android:label="fragment_main_mvvm"
-        tools:layout="@layout/fragment_main_mvvm" >
+        android:label="Tasks"
+        tools:layout="@layout/fragment_main_mvvm">
 
         <action
-            android:id="@+id/action_add"
+            android:id="@+id/action_to_add_edit"
             app:destination="@+id/editFragment" />
 
     </fragment>
@@ -21,18 +21,22 @@
     <fragment
         android:id="@+id/editFragment"
         android:name="com.svmc.exampleapplication.luantv.ui.editor.EditFragment"
-        android:label="edit_fragment_mvvm"
-        tools:layout="@layout/edit_fragment_mvvm" >
+        android:label="{title}"
+        tools:layout="@layout/edit_fragment_mvvm">
 
-        <action android:id="@+id/action_save"
+        <action
+            android:id="@+id/action_save"
             app:destination="@+id/taskFragment" />
 
-        <deepLink app:uri="www.example.com/urlTest"/>
+        <deepLink app:uri="www.example.com/urlTest" />
         <argument
             android:name="task"
+            android:defaultValue="@null"
             app:argType="com.svmc.exampleapplication.luantv.data.Task"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 
 

@@ -2,7 +2,6 @@ package com.svmc.exampleapplication.luantv.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.svmc.exampleapplication.luantv.data.TaskDatabase
 import dagger.Module
 import dagger.Provides
@@ -10,7 +9,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import java.lang.annotation.RetentionPolicy
 import javax.inject.Qualifier
 import javax.inject.Singleton
 

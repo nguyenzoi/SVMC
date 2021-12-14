@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".luantv.ui.task.EditFragment">
+    tools:context=".luantv.ui.editor.EditFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/edt_check_book_title"
+                android:id="@+id/check_book_importance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
