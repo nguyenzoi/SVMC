@@ -10,7 +10,6 @@ import com.svmc.exampleapplication.luantv.data.TaskDao
 import com.svmc.exampleapplication.luantv.ui.ADD_TASK_RESULT_OK
 import com.svmc.exampleapplication.luantv.ui.EDIT_TASK_RESULT_OK
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -29,7 +28,7 @@ class TaskViewModel @ViewModelInject constructor(
 
     val preferenceFlow = preferenceManager.preferenceFlow
 
-    val tasksFlow = combine(searchQuery.asFlow(), preferenceFlow) {
+    private val tasksFlow = combine(searchQuery.asFlow(), preferenceFlow) {
         searchQuery, filter -> Pair(searchQuery, filter)
     }.flatMapLatest { (searchQuery, filter) ->
         taskDao.getTask(searchQuery, filter.sortOrder, filter.hideCompleted)
@@ -60,7 +59,6 @@ class TaskViewModel @ViewModelInject constructor(
 
     fun onItemSelected(task: Task) = viewModelScope.launch {
         tasksEventChanel.send(TasksEvent.NavigateToEditScreen(task))
-        state.set("searchQuery", searchQuery.value)
     }
 
     fun onClickAddButton () = viewModelScope.launch {

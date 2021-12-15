@@ -2,18 +2,18 @@ package com.svmc.exampleapplication.luantv.ui.task
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.FragmentMainMvvmBinding
@@ -124,7 +124,6 @@ class TaskFragment: CommonFragment(R.layout.fragment_main_mvvm, "TaskFragmentLif
         searchView = searchItem.actionView as SearchView
         val pendingQuery = viewModel.searchQuery.value
 
-        Log.d(TAG, "onCreateOptionsMenu: $pendingQuery")
         if (pendingQuery != null && pendingQuery.isNotEmpty()) {
             searchItem.expandActionView()
             searchView.setQuery(pendingQuery, false)
@@ -144,12 +143,10 @@ class TaskFragment: CommonFragment(R.layout.fragment_main_mvvm, "TaskFragmentLif
         return when(item.itemId) {
 
             R.id.action_sort_by_date -> {
-//                viewModel.orderBy.value = TaskViewModel.Order.BY_DATE
                 viewModel.updateSort(Order.BY_DATE)
                 true
             }
             R.id.action_sort_by_name -> {
-//                viewModel.orderBy.value = TaskViewModel.Order.BY_NAME\
                 viewModel.updateSort(Order.BY_NAME)
                 true
             }
@@ -158,8 +155,6 @@ class TaskFragment: CommonFragment(R.layout.fragment_main_mvvm, "TaskFragmentLif
                 true
             }
             R.id.action_hide_completed_tasks -> {
-//                viewModel.hideCompleted.value = !viewModel.hideCompleted.value
-//                need to get status of data preferece firstly
                 item.isChecked = !item.isChecked
                 when(item.isChecked) {
                     true -> item.title = "Show completed tasks"
@@ -173,8 +168,8 @@ class TaskFragment: CommonFragment(R.layout.fragment_main_mvvm, "TaskFragmentLif
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         searchView.setOnQueryTextListener(null)
     }
 }

@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class EditViewModel @ViewModelInject constructor(
     val taskDao: TaskDao,
-    @Assisted val state: SavedStateHandle
+    @Assisted private val state: SavedStateHandle
 ): ViewModel(){
     private val editTaskEventChannel = Channel<AddEditTaskEvent>()
     val editTaskEvent = editTaskEventChannel.receiveAsFlow()
