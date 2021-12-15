@@ -7,6 +7,8 @@ import com.svmc.exampleapplication.luantv.data.Order
 import com.svmc.exampleapplication.luantv.data.PreferenceManager
 import com.svmc.exampleapplication.luantv.data.Task
 import com.svmc.exampleapplication.luantv.data.TaskDao
+import com.svmc.exampleapplication.luantv.ui.ADD_TASK_RESULT_OK
+import com.svmc.exampleapplication.luantv.ui.EDIT_TASK_RESULT_OK
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -79,10 +81,18 @@ class TaskViewModel @ViewModelInject constructor(
         tasksEventChanel.send(TasksEvent.NavigateToAddScreen)
     }
 
+    fun onAddEditResult(result: Int) = viewModelScope.launch {
+        when (result) {
+            ADD_TASK_RESULT_OK -> tasksEventChanel.send(TasksEvent.ShowAddEditResult("created new task"))
+            EDIT_TASK_RESULT_OK -> tasksEventChanel.send(TasksEvent.ShowAddEditResult(" updated task"))
+        }
+    }
+
     sealed class TasksEvent {
         object NavigateToAddScreen: TasksEvent()
         data class NavigateToEditScreen(val task: Task): TasksEvent()
         data class ShowUndoDeleteTaskMessage (val task: Task): TasksEvent()
+        data class ShowAddEditResult (val text: String): TasksEvent()
     }
 
 //    enum class Order {

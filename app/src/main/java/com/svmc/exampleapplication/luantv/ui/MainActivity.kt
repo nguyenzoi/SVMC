@@ -1,5 +1,6 @@
 package com.svmc.exampleapplication.luantv.ui
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -29,3 +30,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return navControler.navigateUp() || super.onSupportNavigateUp()
     }
 }
+
+const val ADD_TASK_RESULT_OK = Activity.RESULT_FIRST_USER
+const val EDIT_TASK_RESULT_OK = Activity.RESULT_FIRST_USER + 1
