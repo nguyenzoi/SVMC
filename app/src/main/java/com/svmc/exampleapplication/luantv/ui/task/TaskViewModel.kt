@@ -56,10 +56,6 @@ class TaskViewModel @ViewModelInject constructor(
         preferenceManager.updateHideCompleted(hide)
     }
 
-    fun updateTask(task: Task) {
-
-    }
-
     fun updateCompletedTask(task: Task, completed: Boolean) = viewModelScope.launch {
         taskDao.update(task.copy(completed = completed))
     }
@@ -88,11 +84,16 @@ class TaskViewModel @ViewModelInject constructor(
         }
     }
 
+    fun deleteAllCompletedTask() = viewModelScope.launch {
+        tasksEventChanel.send(TasksEvent.NavigateToDeleteAllCompletedScreen)
+    }
+
     sealed class TasksEvent {
         object NavigateToAddScreen: TasksEvent()
         data class NavigateToEditScreen(val task: Task): TasksEvent()
         data class ShowUndoDeleteTaskMessage (val task: Task): TasksEvent()
         data class ShowAddEditResult (val text: String): TasksEvent()
+        object NavigateToDeleteAllCompletedScreen: TasksEvent()
     }
 
 //    enum class Order {
