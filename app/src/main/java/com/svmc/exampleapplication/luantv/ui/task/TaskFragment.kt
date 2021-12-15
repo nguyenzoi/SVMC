@@ -2,10 +2,7 @@ package com.svmc.exampleapplication.luantv.ui.task
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -22,18 +19,22 @@ import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.FragmentMainMvvmBinding
 import com.svmc.exampleapplication.luantv.data.Order
 import com.svmc.exampleapplication.luantv.data.Task
+import com.svmc.exampleapplication.luantv.ui.common.CommonFragment
 import com.svmc.exampleapplication.luantv.util.exhaustive
 import com.svmc.exampleapplication.luantv.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 private const val TAG = "TaskFragment"
 @AndroidEntryPoint
-class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListener {
+class TaskFragment: CommonFragment(R.layout.fragment_main_mvvm, "TaskFragmentLife"), TaskAdapter.ItemListener {
 
     private val viewModel: TaskViewModel by viewModels()
     private lateinit var binding: FragmentMainMvvmBinding
     private lateinit var taskAdapter: TaskAdapter
+    private lateinit var searchView: SearchView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,10 +121,22 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListe
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_fragmennt_task, menu)
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
+        searchView = searchItem.actionView as SearchView
+        val pendingQuery = viewModel.searchQuery.value
+
+        Log.d(TAG, "onCreateOptionsMenu: $pendingQuery")
+        if (pendingQuery != null && pendingQuery.isNotEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(pendingQuery, false)
+        }
         searchView.onQueryTextChanged {
             //update text change
             viewModel.searchQuery.value = it
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            menu.findItem(R.id.action_hide_completed_tasks).isChecked =
+                viewModel.preferenceFlow.first().hideCompleted
         }
     }
 
@@ -148,11 +161,20 @@ class TaskFragment: Fragment(R.layout.fragment_main_mvvm), TaskAdapter.ItemListe
 //                viewModel.hideCompleted.value = !viewModel.hideCompleted.value
 //                need to get status of data preferece firstly
                 item.isChecked = !item.isChecked
+                when(item.isChecked) {
+                    true -> item.title = "Show completed tasks"
+                    false -> item.title = "Hide completed tasks"
+                }
                 viewModel.updateHideCompleted(item.isChecked)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchView.setOnQueryTextListener(null)
     }
 }

@@ -13,12 +13,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.EditFragmentMvvmBinding
+import com.svmc.exampleapplication.luantv.ui.common.CommonFragment
 import com.svmc.exampleapplication.luantv.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class EditFragment: Fragment(R.layout.edit_fragment_mvvm) {
+class EditFragment: CommonFragment(R.layout.edit_fragment_mvvm, "EditFragmentLife") {
     private val viewModel: EditViewModel by viewModels()
     lateinit var binding: EditFragmentMvvmBinding
 

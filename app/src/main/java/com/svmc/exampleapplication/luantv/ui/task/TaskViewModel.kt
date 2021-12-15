@@ -27,17 +27,6 @@ class TaskViewModel @ViewModelInject constructor(
     private val tasksEventChanel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChanel.receiveAsFlow()
 
-//    val orderBy = MutableStateFlow(Order.BY_DATE)
-//    val hideCompleted = MutableStateFlow(false)
-//
-//    private val tasksFlow = combine(searchQuery, orderBy, hideCompleted) {
-//        searchQuery, orderBy, hideCompleted -> Triple(searchQuery, orderBy, hideCompleted)
-//    }.flatMapLatest { (searchQuery, orderBy, hideCompleted) ->
-//        taskDao.getTask(searchQuery, orderBy, hideCompleted)
-//    }.onCompletion {  }.catch {  }
-
-
-
     val preferenceFlow = preferenceManager.preferenceFlow
 
     val tasksFlow = combine(searchQuery.asFlow(), preferenceFlow) {
@@ -71,6 +60,7 @@ class TaskViewModel @ViewModelInject constructor(
 
     fun onItemSelected(task: Task) = viewModelScope.launch {
         tasksEventChanel.send(TasksEvent.NavigateToEditScreen(task))
+        state.set("searchQuery", searchQuery.value)
     }
 
     fun onClickAddButton () = viewModelScope.launch {
@@ -95,8 +85,4 @@ class TaskViewModel @ViewModelInject constructor(
         data class ShowAddEditResult (val text: String): TasksEvent()
         object NavigateToDeleteAllCompletedScreen: TasksEvent()
     }
-
-//    enum class Order {
-//        BY_DATE, BY_NAME
-//    }
 }
