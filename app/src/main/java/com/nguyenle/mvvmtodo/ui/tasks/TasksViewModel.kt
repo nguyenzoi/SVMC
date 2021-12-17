@@ -8,9 +8,11 @@ import com.nguyenle.mvvmtodo.data.PreferencesManager
 import com.nguyenle.mvvmtodo.data.SortOrder
 import com.nguyenle.mvvmtodo.data.Task
 import com.nguyenle.mvvmtodo.data.TaskDao
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class TasksViewModel @ViewModelInject constructor(
@@ -20,6 +22,10 @@ class TasksViewModel @ViewModelInject constructor(
     val searchQuery = MutableStateFlow("")
     val sortOrder = preferencesManager.sortOrder
     val hideCompleted = preferencesManager.hideCompleted
+
+    val tasksEventChannel = Channel<TasksEvent>()
+    val tasksEvent = tasksEventChannel.receiveAsFlow()
+
     private val taskFlow =
         combine(searchQuery, sortOrder, hideCompleted) { query, sortOrder, hideCompleted ->
             Triple(query, sortOrder, hideCompleted)
@@ -44,6 +50,18 @@ class TasksViewModel @ViewModelInject constructor(
         taskDao.update(task.copy(completed = isChecked))
     }
 
+    fun onTaskSwiped(task: Task) = viewModelScope.launch {
+        taskDao.delete(task)
+        tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(task))
+    }
+
+    fun undoTaskDeleted(task: Task) = viewModelScope.launch {
+        taskDao.insert(task)
+    }
+
     val task = taskFlow.asLiveData()
 
+    sealed class TasksEvent {
+        data class ShowUndoDeleteTaskMessage(val task: Task) : TasksEvent()
+    }
 }
