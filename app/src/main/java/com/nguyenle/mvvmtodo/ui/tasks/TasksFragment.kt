@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.nguyenle.mvvmtodo.R
 import com.nguyenle.mvvmtodo.data.SortOrder
 import com.nguyenle.mvvmtodo.data.Task
 import com.nguyenle.mvvmtodo.databinding.FragmentTasksBinding
+import com.nguyenle.mvvmtodo.util.exhaustive
 import com.nguyenle.mvvmtodo.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -69,10 +71,22 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
                                 viewModel.undoTaskDeleted(event.task)
                             }.show()
                     }
-                }
+                    is TasksViewModel.TasksEvent.NavigateToAddTaskScreen -> {
+                        val action = TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment(null, "Add task")
+                        findNavController().navigate(action)
+                    }
+
+                    is TasksViewModel.TasksEvent.NavigateToEditTaskScreen -> {
+                        val action =
+                            TasksFragmentDirections.actionTasksFragmentToAddEditTaskFragment(event.task, "Edit task")
+                        findNavController().navigate(action)
+                    }
+                }.exhaustive
 
             }
         }
+
+        binding.fabAddTask.setOnClickListener { viewModel.addNewTaskClick() }
 
         setHasOptionsMenu(true)
     }
