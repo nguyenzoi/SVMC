@@ -56,6 +56,10 @@ class TasksViewModel @ViewModelInject constructor(
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(task))
     }
 
+    fun onDeleteAllTaskClick() = viewModelScope.launch {
+        tasksEventChannel.send(TasksEvent.NavigateDeleteAllCompleted)
+    }
+
     fun undoTaskDeleted(task: Task) = viewModelScope.launch {
         taskDao.insert(task)
     }
@@ -80,5 +84,6 @@ class TasksViewModel @ViewModelInject constructor(
         data class NavigateToEditTaskScreen(val task: Task) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val task: Task) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
+        object NavigateDeleteAllCompleted : TasksEvent()
     }
 }
