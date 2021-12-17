@@ -10,6 +10,9 @@
 # Video MVVM
 * https://www.youtube.com/watch?v=Udk6iaR-RXA&list=PLrnPJCHvNZuCfAe7QK2BoMPkv2TGM_b0E&ab_channel=CodinginFlow
 
+# Retrofit & Dagger-Hilt
+* https://www.youtube.com/watch?v=w3WMO3B9EJ4&list=LL&index=1&t=18s&ab_channel=PhilippLackner
+
 # Bộ câu hỏi github
 * https://github.com/MindorksOpenSource/android-interview-questions?fbclid=IwAR0QxTgK-g1Z6BBaQ6S_RXbd6_MKWRt-K6rV3cl3U5Pg6_YnLhQFy_aW8dg
 
