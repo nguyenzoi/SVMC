@@ -1,0 +1,48 @@
+Content:
++ 100 kotlin
++ room
++ jetpack datastore
++ flow( coroutines)
++ navigation component
++ dependency injection with dagger hilt
++ view binding
++ mvvm (model view viewmodel)
++ viewmodel + live data
+
+#1
+Build Process:
+Application Module (sources code, resource files, aidl file) :
+Dependencies(Library) :
+-> compiler-> dex files and compiled resources -> apk packager
+debug or release keystore -> apk packager
+apk packager -> debug or release apk
+
+Struct android project:
+
+Module-name
+- android test
+- main
++ androidmanifest: Miêu tả các thành phần thiết yếu đến android build tool, hệ thống system android, google play (package name, id, components activity, services, broadcasts, content provider), permissstion, hardware and software feature.
++ java: contain source code
++ jni: java native interface
++ res: contain all resource layout, draw, ui string
++ assets: contain file that shout complied to .apk (using textt and game data)
+- test <local test in jvm execute>
+- build.gradle(module): define the module-specific build configurations
+
+File gradle:
+buildScript {
+  repositories: contain repositories gradles uses to search or download the dependencies
+  dependencies: gradle to use build project
+}
+
+allprojects { it mean config all modules, such as third party plugins
+   repositories:
+} -> cho do nang apk
+
+ext: share properties to all modules
+build.gradle (project, modules)
+gradle.properties
+local.properties: config local environment  sdk.dir
+
+#2

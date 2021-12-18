@@ -38,27 +38,27 @@ android {
         freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
-    flavorDimensions "stage", "mode"
-
-    productFlavors {
-        dev {
-            dimension "stage"
-            versionNameSuffix "-dev"
-            applicationIdSuffix '.dev'
-        }
-
-        prod {
-            dimension "stage"
-        }
-
-        demo {
-            dimension "mode"
-        }
-
-        full {
-            dimension "mode"
-        }
-    }
+//    flavorDimensions "stage", "mode"
+//
+//    productFlavors {
+//        dev {
+//            dimension "stage"
+//            versionNameSuffix "-dev"
+//            applicationIdSuffix '.dev'
+//        }
+//
+//        prod {
+//            dimension "stage"
+//        }
+//
+//        demo {
+//            dimension "mode"
+//        }
+//
+//        full {
+//            dimension "mode"
+//        }
+//    }
 }
 
 dependencies {
