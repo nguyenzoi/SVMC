@@ -45,4 +45,8 @@ build.gradle (project, modules)
 gradle.properties
 local.properties: config local environment  sdk.dir
 
-#2
+#2, 3
+
+#4
+The @Qualifier(định danh) annotation is used to resolve the autowiring conflict
+, when there are multiple beans of same type
