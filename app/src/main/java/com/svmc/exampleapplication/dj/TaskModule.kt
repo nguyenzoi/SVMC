@@ -2,7 +2,6 @@ package com.svmc.exampleapplication.dj
 
 import android.app.Application
 import androidx.room.Room
-import com.svmc.exampleapplication.TasksApplication
 import com.svmc.exampleapplication.data.TaskDataBase
 import dagger.Module
 import dagger.Provides
@@ -15,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-class TaskModule {
+object TaskModule {
 
     @Provides
     @Singleton
@@ -36,6 +35,7 @@ class TaskModule {
     @Provides
     @Singleton
     fun provideApplicationScope() = CoroutineScope(SupervisorJob())
+
 }
 
 @Qualifier
