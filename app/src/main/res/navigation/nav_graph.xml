@@ -8,11 +8,27 @@
     <fragment
         android:id="@+id/addEditFragment"
         android:name="com.svmc.exampleapplication.ui.editor.AddEditFragment"
-        android:label="add_edit_fragment"
-        tools:layout="@layout/add_edit_fragment" />
+        android:label="{title}"
+        tools:layout="@layout/add_edit_fragment" >
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+
+        <argument
+            android:name="task"
+            app:argType="com.svmc.exampleapplication.data.Task"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+    </fragment>
     <fragment
         android:id="@+id/tasksFragment"
         android:name="com.svmc.exampleapplication.ui.tasks.TasksFragment"
-        android:label="task_list_fragment"
-        tools:layout="@layout/task_list_fragment" />
+        android:label="Tasks"
+        tools:layout="@layout/task_list_fragment" >
+        <action
+            android:id="@+id/action_add_edit_task_fragment"
+            app:destination="@id/addEditFragment" />
+    </fragment>
 </navigation>

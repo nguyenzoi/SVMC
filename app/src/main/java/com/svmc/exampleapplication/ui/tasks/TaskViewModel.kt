@@ -1,15 +1,13 @@
 package com.svmc.exampleapplication.ui.tasks
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.svmc.exampleapplication.data.Order
 import com.svmc.exampleapplication.data.PreferenceManager
 import com.svmc.exampleapplication.data.Task
 import com.svmc.exampleapplication.data.TaskDao
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -17,16 +15,17 @@ import kotlinx.coroutines.launch
 
 class TaskViewModel @ViewModelInject constructor(
     private val taskDao: TaskDao,
-    private val preferenceManager: PreferenceManager
+    private val preferenceManager: PreferenceManager,
+    @Assisted private val state: SavedStateHandle
 ) : ViewModel() {
 
     val taskEventChanel = Channel<TaskEvent>()
     val taskEvent = taskEventChanel.receiveAsFlow()
 
-    val searchText = MutableStateFlow("")
+    val searchText = state.getLiveData("search_text","")
     val dataStoreFlow = preferenceManager.dataStoreFlow
 
-    val taskFlow = combine(searchText, dataStoreFlow) {
+    val taskFlow = combine(searchText.asFlow(), dataStoreFlow) {
         searchText, filterPreference ->
         Pair(searchText, filterPreference)
     }.flatMapLatest { (searchText, filterPreference) ->
@@ -43,8 +42,12 @@ class TaskViewModel @ViewModelInject constructor(
         preferenceManager.updateHideCompleted(status)
     }
 
+    fun onFloatAddClick() = viewModelScope.launch {
+        taskEventChanel.send(TaskEvent.NavigateAddScreen)
+    }
+
     fun onClickItem(task: Task) = viewModelScope.launch {
-        taskEventChanel.send(TaskEvent.OnAddEditScreen(task))
+        taskEventChanel.send(TaskEvent.NavigateAddEditScreen(task))
     }
 
     fun onClickCheckBoxCompleted (task: Task, isChecked: Boolean) = viewModelScope.launch {
@@ -52,7 +55,7 @@ class TaskViewModel @ViewModelInject constructor(
         taskEventChanel.send(TaskEvent.OnUpdateHideCompletedTask(task, isChecked))
     }
 
-    fun OnSwipeToDeleteItem (task: Task) = viewModelScope.launch {
+    fun onSwipeToDeleteItem (task: Task) = viewModelScope.launch {
         taskDao.delete(task)
         taskEventChanel.send(TaskEvent.OnUndoTask(task))
     }
@@ -62,9 +65,10 @@ class TaskViewModel @ViewModelInject constructor(
     }
 
     sealed class TaskEvent {
+        object NavigateAddScreen: TaskEvent()
 
         data class OnUpdateHideCompletedTask(val task: Task, val isChecked: Boolean): TaskEvent()
-        data class OnAddEditScreen(val task: Task): TaskEvent()
+        data class NavigateAddEditScreen(val task: Task): TaskEvent()
         data class OnUndoTask (val task: Task): TaskEvent()
     }
 }
