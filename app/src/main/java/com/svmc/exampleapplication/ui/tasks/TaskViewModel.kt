@@ -52,9 +52,19 @@ class TaskViewModel @ViewModelInject constructor(
         taskEventChanel.send(TaskEvent.OnUpdateHideCompletedTask(task, isChecked))
     }
 
+    fun OnSwipeToDeleteItem (task: Task) = viewModelScope.launch {
+        taskDao.delete(task)
+        taskEventChanel.send(TaskEvent.OnUndoTask(task))
+    }
+
+    fun undoTask (task: Task) = viewModelScope.launch {
+        taskDao.insert(task)
+    }
+
     sealed class TaskEvent {
 
         data class OnUpdateHideCompletedTask(val task: Task, val isChecked: Boolean): TaskEvent()
         data class OnAddEditScreen(val task: Task): TaskEvent()
+        data class OnUndoTask (val task: Task): TaskEvent()
     }
 }
