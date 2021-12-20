@@ -2,6 +2,7 @@ package com.svmc.exampleapplication.dj
 
 import android.app.Application
 import androidx.room.Room
+import com.svmc.exampleapplication.TasksApplication
 import com.svmc.exampleapplication.data.TaskDataBase
 import dagger.Module
 import dagger.Provides
@@ -10,7 +11,6 @@ import dagger.hilt.android.components.ApplicationComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Qualifier
-import javax.inject.Scope
 import javax.inject.Singleton
 
 @Module
@@ -19,7 +19,7 @@ class TaskModule {
 
     @Provides
     @Singleton
-    fun provideTaskDao(
+    fun provideTaskDataBase(
         app: Application,
         callBack: TaskDataBase.CallBack
     ) =

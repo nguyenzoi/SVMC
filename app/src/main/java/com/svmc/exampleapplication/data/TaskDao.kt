@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface TaskDao {
 
     @Query("Select * from task_table")
-    suspend fun getTasks(): Flow<List<Task>>
+    fun getTasks(): Flow<List<Task>>
 
     @Delete
     suspend fun delete(task: Task)

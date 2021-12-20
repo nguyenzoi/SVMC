@@ -1,16 +1,12 @@
 package com.svmc.exampleapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
-import androidx.datastore.DataStoreFactory
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.databinding.ActivityMainBinding
-import common.CommonActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 const val TAG = "MainActivity"
