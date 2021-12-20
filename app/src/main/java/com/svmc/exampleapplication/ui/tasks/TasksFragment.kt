@@ -1,6 +1,7 @@
 package com.svmc.exampleapplication.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -51,14 +52,14 @@ class TasksFragment: Fragment(R.layout.task_list_fragment) {
 
     }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_sort_by_name -> {
-
+                viewModel.sortBy.value = SortBy.SORT_BY_NAME
                 return true
             }
             R.id.action_sort_by_date -> {
-
+                viewModel.sortBy.value = SortBy.SORT_BY_DATE
                 return true
             }
 
@@ -68,11 +69,12 @@ class TasksFragment: Fragment(R.layout.task_list_fragment) {
             }
 
             R.id.action_hide_all_completed_task -> {
-
+                item.isChecked = !item.isChecked
+                viewModel.hideCompleted.value = item.isChecked
                 return true
             }
 
         }
-        return super.onContextItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 }
