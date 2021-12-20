@@ -12,21 +12,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.svmc.exampleapplication.R
 import com.svmc.exampleapplication.data.Order
+import com.svmc.exampleapplication.data.Task
 import com.svmc.exampleapplication.databinding.TaskListFragmentBinding
+import com.svmc.exampleapplication.util.exhaustive
 import com.svmc.exampleapplication.util.onQueryChanged
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TasksFragment: Fragment(R.layout.task_list_fragment) {
+class TasksFragment: Fragment(R.layout.task_list_fragment), TaskAdapter.TaskItemListener{
     private val viewModel: TaskViewModel by viewModels()
     private lateinit var binding: TaskListFragmentBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = TaskListFragmentBinding.bind(view)
 
-        val taskAdapter = TaskAdapter()
+        val taskAdapter = TaskAdapter(this)
         binding.apply {
             listTask.apply {
                 adapter = taskAdapter
@@ -39,7 +42,27 @@ class TasksFragment: Fragment(R.layout.task_list_fragment) {
             taskAdapter.submitList(it)
         }
 
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.taskEvent.collect {event ->
+                when(event) {
+                    is TaskViewModel.TaskEvent.OnAddEditScreen -> {
+                        TODO()
+                    }
+                    is TaskViewModel.TaskEvent.OnUpdateHideCompletedTask -> {
+                        taskAdapter
+                    }
+                }.exhaustive
+            }
+        }
         setHasOptionsMenu(true)
+    }
+
+    override fun onClickItem(task: Task) {
+        viewModel.onClickItem(task)
+    }
+
+    override fun onCheckBoxClick(task: Task, isChecked: Boolean) {
+        viewModel.onClickCheckBoxCompleted(task, isChecked)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

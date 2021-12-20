@@ -9,9 +9,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.svmc.exampleapplication.data.Task
 import com.svmc.exampleapplication.databinding.TaskListItemBinding
 
-class TaskAdapter: ListAdapter<Task, TaskAdapter.TaskViewHolder>(CallBackDiff()) {
+class TaskAdapter(val listener: TaskItemListener): ListAdapter<Task, TaskAdapter.TaskViewHolder>(CallBackDiff()) {
 
-    inner class TaskViewHolder(val binding: TaskListItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class TaskViewHolder(private val binding: TaskListItemBinding): RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val pos = adapterPosition
+                    if (pos != RecyclerView.NO_POSITION)
+                        listener.onClickItem(getItem(pos))
+                }
+                checkboxCompleted.setOnClickListener {
+                    val pos = adapterPosition
+                    if (pos != RecyclerView.NO_POSITION) {
+                        val task = getItem(pos)
+                        listener.onCheckBoxClick(task, checkboxCompleted.isChecked)
+                    }
+                }
+            }
+        }
+
         fun bind(task: Task) {
             binding.apply {
                 tvTaskName.text = task.name
@@ -36,6 +54,11 @@ class TaskAdapter: ListAdapter<Task, TaskAdapter.TaskViewHolder>(CallBackDiff())
         override fun areItemsTheSame(oldItem: Task, newItem: Task) = oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: Task, newItem: Task) = oldItem.hashCode() == newItem.hashCode()
+    }
+
+    interface TaskItemListener {
+        fun onClickItem(task: Task)
+        fun onCheckBoxClick (task: Task, isChecked: Boolean)
     }
 
 }
