@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
 
-    @Query("Select * from task_table")
-    fun getTasks(): Flow<List<Task>>
+    @Query("Select * from task_table where name like '%' || :searchQuery || '%' order by importance desc")
+    fun getTasks(searchQuery: String?): Flow<List<Task>>
 
     @Delete
     suspend fun delete(task: Task)

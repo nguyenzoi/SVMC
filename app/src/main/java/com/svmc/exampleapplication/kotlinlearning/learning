@@ -50,3 +50,8 @@ local.properties: config local environment  sdk.dir
 #4
 The @Qualifier(định danh) annotation is used to resolve the autowiring conflict
 , when there are multiple beans of same type
+
+#6
+
+:searchtext '%' || : start search
+:searchtext || '%' : end search
