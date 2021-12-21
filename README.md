@@ -13,6 +13,9 @@
 # Retrofit & Dagger-Hilt
 * https://www.youtube.com/watch?v=w3WMO3B9EJ4&list=LL&index=1&t=18s&ab_channel=PhilippLackner
 
+# Unit test
+* MockK: https://viblo.asia/p/mockk-phuong-phap-mocking-ngon-hon-mockito-trong-kotlin-Ljy5VqAMlra
+
 # Bộ câu hỏi github
 * https://github.com/MindorksOpenSource/android-interview-questions?fbclid=IwAR0QxTgK-g1Z6BBaQ6S_RXbd6_MKWRt-K6rV3cl3U5Pg6_YnLhQFy_aW8dg
 
