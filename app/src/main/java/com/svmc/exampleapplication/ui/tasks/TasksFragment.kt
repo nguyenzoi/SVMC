@@ -90,6 +90,10 @@ class TasksFragment: Fragment(R.layout.task_list_fragment), TaskAdapter.TaskItem
                     is TaskViewModel.TaskEvent.NavigateSaveBack -> {
                         Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                     }
+                    is TaskViewModel.TaskEvent.NavigateToDeleteAllCompletedTaskScreen -> {
+                        val action = TasksFragmentDirections.actionGlobalDeleteCompletedTaskFragment()
+                        findNavController().navigate(action)
+                    }
                 }.exhaustive
             }
         }
@@ -137,7 +141,7 @@ class TasksFragment: Fragment(R.layout.task_list_fragment), TaskAdapter.TaskItem
             }
 
             R.id.action_delete_all_completed_task -> {
-
+                viewModel.onDeleteAllCompletedTask()
                 return true
             }
 

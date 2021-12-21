@@ -31,4 +31,10 @@
             android:id="@+id/action_add_edit_task_fragment"
             app:destination="@id/addEditFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/deleteCompletedTaskFragment"
+        android:name="com.svmc.exampleapplication.ui.dialog.DeleteCompletedTaskFragment"
+        android:label="DeleteCompletedTaskFragment" />
+
+    <action android:id="@+id/action_global_deleteCompletedTaskFragment" app:destination="@id/deleteCompletedTaskFragment"/>
 </navigation>

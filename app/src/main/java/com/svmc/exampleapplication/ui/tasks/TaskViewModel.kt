@@ -77,8 +77,13 @@ class TaskViewModel @ViewModelInject constructor(
         }
     }
 
+    fun onDeleteAllCompletedTask() = viewModelScope.launch {
+        taskEventChanel.send(TaskEvent.NavigateToDeleteAllCompletedTaskScreen)
+    }
+
     sealed class TaskEvent {
         object NavigateAddScreen: TaskEvent()
+        object NavigateToDeleteAllCompletedTaskScreen: TaskEvent()
 
         data class OnUpdateHideCompletedTask(val task: Task, val isChecked: Boolean): TaskEvent()
         data class NavigateAddEditScreen(val task: Task): TaskEvent()
