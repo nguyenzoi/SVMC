@@ -15,6 +15,7 @@
 
 # Unit test
 * MockK: https://viblo.asia/p/mockk-phuong-phap-mocking-ngon-hon-mockito-trong-kotlin-Ljy5VqAMlra
+* Mockito: https://viblo.asia/p/unit-test-cho-nguoi-moi-bat-dau-de-dang-hon-khi-dung-mockito-GrLZDVRw5k0
 
 # Flow
 * https://viblo.asia/p/cung-hoc-kotlin-coroutine-phan-8-flow-part-1-of-3-bWrZnx695xw#_1-gioi-thieu-flow-trong-kotlin-coroutine-0
