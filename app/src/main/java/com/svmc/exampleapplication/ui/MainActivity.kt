@@ -1,5 +1,6 @@
 package com.svmc.exampleapplication.ui
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -28,4 +29,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         return navController.navigateUp()|| super.onSupportNavigateUp()
     }
 
+}
+
+object TaskStatus {
+    const val ADD_TASK_RESULT_OK = Activity.RESULT_FIRST_USER
+    const val UPDATE_TASK_RESULT_OK = Activity.RESULT_FIRST_USER + 1
 }

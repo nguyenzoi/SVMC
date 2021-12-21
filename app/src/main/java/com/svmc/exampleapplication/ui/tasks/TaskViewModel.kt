@@ -7,6 +7,8 @@ import com.svmc.exampleapplication.data.Order
 import com.svmc.exampleapplication.data.PreferenceManager
 import com.svmc.exampleapplication.data.Task
 import com.svmc.exampleapplication.data.TaskDao
+import com.svmc.exampleapplication.ui.TaskStatus.ADD_TASK_RESULT_OK
+import com.svmc.exampleapplication.ui.TaskStatus.UPDATE_TASK_RESULT_OK
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -64,11 +66,24 @@ class TaskViewModel @ViewModelInject constructor(
         taskDao.insert(task)
     }
 
+    fun onAddUpdateResult(result: Int) = viewModelScope.launch {
+        when(result) {
+            ADD_TASK_RESULT_OK -> {
+                taskEventChanel.send(TaskEvent.NavigateSaveBack("Added Task"))
+            }
+            UPDATE_TASK_RESULT_OK -> {
+                taskEventChanel.send(TaskEvent.NavigateSaveBack("Added Task"))
+            }
+        }
+    }
+
     sealed class TaskEvent {
         object NavigateAddScreen: TaskEvent()
 
         data class OnUpdateHideCompletedTask(val task: Task, val isChecked: Boolean): TaskEvent()
         data class NavigateAddEditScreen(val task: Task): TaskEvent()
         data class OnUndoTask (val task: Task): TaskEvent()
+
+        data class NavigateSaveBack(val msg: String): TaskEvent()
     }
 }
