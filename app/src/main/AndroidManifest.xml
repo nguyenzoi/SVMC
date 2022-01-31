@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExampleApplication">
         <activity
+            android:name=".collapsingtoolbar.CollapsingToolbarDemoActivity"
+            android:exported="true"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
             android:name=".nguyenlv.view.MvvmDemoActivity"
             android:exported="true" />
         <activity
